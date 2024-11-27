@@ -20,79 +20,60 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 enum dilemma_keymap_layers {
     _BASE = 0,
-    _NUM,
-    _NAV,
-    _MOU,
+    _COL = 1,
+    _NUM = 2,
+    _NAV = 3,
+    _MOU = 4,
 };
 
 #define CTL_TAB LCTL_T(KC_TAB)
 
 #define CTL_A LCTL_T(KC_A)
 #define GUI_S LGUI_T(KC_S)
+#define GUI_R LGUI_T(KC_R)
 #define ALT_D LALT_T(KC_D)
+#define ALT_S LALT_T(KC_S)
 #define SFT_F LSFT_T(KC_F)
+#define SFT_TT LSFT_T(KC_T)
+
 #define SFT_J RSFT_T(KC_J)
+#define SFT_N RSFT_T(KC_N)
 #define ALT_K LALT_T(KC_K)
+#define ALT_E LALT_T(KC_E)
 #define GUI_L LGUI_T(KC_L)
+#define GUI_I LGUI_T(KC_I)
 #define CTL_SCL LCTL_T(KC_SCLN)
+#define CTL_O LCTL_T(KC_O)
 
-#define NUM_Z LT(_NUM, KC_Z)
-#define NUM_SL LT(_NUM, KC_SLSH)
+#define NAV_Z LT(_NAV, KC_Z)
+#define NAV_SL LT(_NAV, KC_SLSH)
 
-const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [_BASE] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_ESC,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      CTL_TAB,   CTL_A,   GUI_S,   ALT_D,   SFT_F,    KC_G,                         KC_H,   SFT_J,   ALT_K,   GUI_L, CTL_SCL,  KC_ENT,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT,   NUM_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT,  NUM_SL, KC_RSFT,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,MO(_NAV),  KC_SPC,   MO(_NUM),MO(_NAV), KC_RGUI
-                                      //`--------------------------'  `--------------------------'
+#define SFT_1 LSFT(KC_1)
+#define SFT_2 LSFT(KC_2)
+#define SFT_3 LSFT(KC_3)
+#define SFT_4 LSFT(KC_4)
+#define SFT_5 LSFT(KC_5)
+#define SFT_6 LSFT(KC_6)
+#define SFT_7 LSFT(KC_7)
+#define SFT_8 LSFT(KC_8)
+#define SFT_9 LSFT(KC_9)
+#define SFT_0 LSFT(KC_0)
 
-  ),
+#define SFT_EQL LSFT(KC_EQL)
+#define SFT_MINS LSFT(KC_MINS)
+#define SFT_QUOT LSFT(KC_QUOT)
+#define SFT_LBRC LSFT(KC_LBRC)
+#define SFT_RBRC LSFT(KC_RBRC)
 
-    [_NUM] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, _______,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, _______,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI, _______,  KC_DEL,    _______, _______, _______
-                                      //`--------------------------'  `--------------------------'
-  ),
+#define ALT_UP LALT(KC_UP)
+#define ALT_DOWN LALT(KC_DOWN)
 
-    [_NAV] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_MINS,  KC_EQL, KC_LBRC, KC_RBRC, KC_BSLS,  KC_GRV,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, KC_TILD,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,   MO(3),  KC_SPC,     KC_ENT, _______, KC_RALT
-                                      //`--------------------------'  `--------------------------'
-  ),
-
-    [_MOU] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-        QK_BOOT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI, _______,  KC_SPC,     KC_ENT, _______, KC_RALT
-                                      //`--------------------------'  `--------------------------'
-  )
-};
+#define VOL_UP KC_KB_VOLUME_UP
+#define VOL_DOWN KC_KB_VOLUME_DOWN
 
 // Tap Dance keycodes
 enum td_keycodes {
-    ALT_LP // Our example key: `LALT` when held, `(` when tapped. Add additional keycodes for each tapdance.
+    SFT1_CTL // Our example key: `LALT` when held, `(` when tapped. Add additional keycodes for each tapdance.
 };
 
 // Define a type containing as many tapdance states as you need
@@ -116,6 +97,56 @@ td_state_t cur_dance(tap_dance_state_t *state);
 void altlp_finished(tap_dance_state_t *state, void *user_data);
 void altlp_reset(tap_dance_state_t *state, void *user_data);
 
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    [_BASE] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+       KC_ESC,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P, KC_BACKSPACE,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      CTL_TAB,   CTL_A,   GUI_S,   ALT_D,   SFT_F,    KC_G,                         KC_H,   SFT_J,   ALT_K,   GUI_L, CTL_SCL,  KC_ENT,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      KC_LSFT,   NAV_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT,  NAV_SL, KC_RSFT,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                         DF(_COL),  KC_ENT,  KC_SPC,   MO(_NUM),MO(_NAV), DF(_COL)
+                                      //`--------------------------'  `--------------------------'
+  ),
+
+    [_COL] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+       KC_ESC,    KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,                         KC_J,    KC_L,    KC_U,    KC_Y, KC_SCLN, KC_BACKSPACE,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      CTL_TAB,   CTL_A,   GUI_R,   ALT_S,  SFT_TT,    KC_D,                         KC_H,   SFT_N,   ALT_E,   GUI_I,   CTL_O,  KC_ENT,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      KC_LSFT,   NAV_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_K,    KC_M, KC_COMM,  KC_DOT,  NAV_SL, KC_RSFT,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                        DF(_BASE),  KC_ENT,  KC_SPC,   MO(_NUM),  KC_DEL,DF(_BASE)
+                                      //`--------------------------'  `--------------------------'
+  ),
+
+    [_NUM] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      _______,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, _______,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______,TD(SFT1_CTL),SFT_2,   SFT_3,   SFT_4,   SFT_5,                        SFT_6,   SFT_7,   SFT_8,   SFT_9,   SFT_0, _______,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______,SFT_LBRC,SFT_RBRC, KC_LBRC, KC_RBRC,SFT_QUOT,                      KC_QUOT,SFT_MINS, KC_MINS, SFT_EQL,  KC_EQL, _______,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          _______, _______, _______,    _______, _______, _______
+                                      //`--------------------------'  `--------------------------'
+  ),
+
+    [_NAV] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      _______,  KC_GRV, KC_HOME,   KC_UP,  KC_END, KC_PGUP,                        KC_F1,   KC_F2,   KC_F3,   KC_F4, KC_BSLS, _______,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, CG_TOGG, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN,                        KC_F5,   KC_F6,   KC_F7,   KC_F8, _______, _______,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______,VOL_DOWN,  VOL_UP,ALT_DOWN,  ALT_UP, _______,                        KC_F9,  KC_F10,  KC_F11,  KC_F12, _______, _______,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          _______, _______, _______,    _______, _______, _______
+                                      //`--------------------------'  `--------------------------'
+  )
+};
+
 // Determine the tapdance state to return
 td_state_t cur_dance(tap_dance_state_t *state) {
     if (state->count == 1) {
@@ -129,34 +160,34 @@ td_state_t cur_dance(tap_dance_state_t *state) {
 
 // Handle the possible states for each tapdance keycode you define:
 
-void altlp_finished(tap_dance_state_t *state, void *user_data) {
+void sft1ctl_finished(tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
         case TD_SINGLE_TAP:
-            register_code16(KC_LPRN);
+            register_code16(LSFT(KC_1));
             break;
         case TD_SINGLE_HOLD:
-            register_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            register_mods(MOD_BIT(KC_LCTL)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
             break;
         case TD_DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
-            tap_code16(KC_LPRN);
-            register_code16(KC_LPRN);
+            tap_code16(LSFT(KC_1));
+            register_code16(LSFT(KC_1));
             break;
         default:
             break;
     }
 }
 
-void altlp_reset(tap_dance_state_t *state, void *user_data) {
+void sft1ctl_reset(tap_dance_state_t *state, void *user_data) {
     switch (td_state) {
         case TD_SINGLE_TAP:
-            unregister_code16(KC_LPRN);
+            unregister_code16(LSFT(KC_1));
             break;
         case TD_SINGLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            unregister_mods(MOD_BIT(KC_LCTL)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
             break;
         case TD_DOUBLE_SINGLE_TAP:
-            unregister_code16(KC_LPRN);
+            unregister_code16(LSFT(KC_1));
             break;
         default:
             break;
@@ -165,5 +196,5 @@ void altlp_reset(tap_dance_state_t *state, void *user_data) {
 
 // Define `ACTION_TAP_DANCE_FN_ADVANCED()` for each tapdance keycode, passing in `finished` and `reset` functions
 tap_dance_action_t tap_dance_actions[] = {
-    [ALT_LP] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, altlp_finished, altlp_reset)
+    [SFT1_CTL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, sft1ctl_finished, sft1ctl_reset)
 };
