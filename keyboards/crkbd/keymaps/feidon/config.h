@@ -20,24 +20,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-//#define USE_MATRIX_I2C
+// #define USE_MATRIX_I2C
 
-//#define QUICK_TAP_TERM 0
-//#define TAPPING_TERM 100
+// #define QUICK_TAP_TERM 0
+// #define TAPPING_TERM 100
 
-#ifdef RGBLIGHT_ENABLE
-    #define RGBLIGHT_EFFECT_BREATHING
-    #define RGBLIGHT_EFFECT_RAINBOW_MOOD
-    #define RGBLIGHT_EFFECT_RAINBOW_SWIRL
-    #define RGBLIGHT_EFFECT_SNAKE
-    #define RGBLIGHT_EFFECT_KNIGHT
-    #define RGBLIGHT_EFFECT_CHRISTMAS
-    #define RGBLIGHT_EFFECT_STATIC_GRADIENT
-    #define RGBLIGHT_EFFECT_RGB_TEST
-    #define RGBLIGHT_EFFECT_ALTERNATING
-    #define RGBLIGHT_EFFECT_TWINKLE
-    #define RGBLIGHT_LIMIT_VAL 120
-    #define RGBLIGHT_HUE_STEP 10
-    #define RGBLIGHT_SAT_STEP 17
-    #define RGBLIGHT_VAL_STEP 17
-#endif
+// Enable use of pointing device on slave split.
+#define SPLIT_POINTING_ENABLE
+
+// Pointing device is on the right split.
+#define POINTING_DEVICE_RIGHT
+
+// Enables support for extended i16 mouse reports (instead of i8).
+#define MOUSE_EXTENDED_REPORT
+
+// Limits the frequency that the sensor is polled for motion.
+#define POINTING_DEVICE_TASK_THROTTLE_MS 10
+
+#define CIRQUE_PINNACLE_DIAMETER_MM 40
+#define CIRQUE_PINNACLE_CURVED_OVERLAY
+#define CIRQUE_PINNACLE_POSITION_MODE CIRQUE_PINNACLE_ABSOLUTE_MODE
+
+#define CIRQUE_PINNACLE_TAP_ENABLE
+#define POINTING_DEVICE_GESTURES_SCROLL_ENABLE
+#define POINTING_DEVICE_GESTURES_CURSOR_GLIDE_ENABLE
