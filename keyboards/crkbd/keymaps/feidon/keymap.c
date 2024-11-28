@@ -208,9 +208,9 @@ const uint16_t PROGMEM mcom_combo[] = {KC_M, KC_COMM, COMBO_END};
 const uint16_t PROGMEM qw_combo[] = {KC_Q, KC_W, COMBO_END};
 
 combo_t key_combos[] = {
-  [CV_TAB] = COMBO(cv_combo, KC_TAB),
-  [MCOM_ENT]  = COMBO(mcom_combo, KC_ENT),
-  [QW_ESC] = COMBO(qw_combo, KC_ESC),
+    [CV_TAB] = COMBO(cv_combo, KC_TAB),
+    [MCOM_ENT]  = COMBO(mcom_combo, KC_ENT),
+    [QW_ESC] = COMBO(qw_combo, KC_ESC),
 };
 //}
 
