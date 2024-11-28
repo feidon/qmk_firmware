@@ -300,7 +300,7 @@ void sft4sft_reset(tap_dance_state_t *state, void *user_data) {
     }
 }
 
-void sft0ctl_finished(tap_dance_state_t *state, void *user_data) 0
+void sft0ctl_finished(tap_dance_state_t *state, void *user_data){
     td_state = cur_dance(state);
     switch (td_state) {
         case TD_SINGLE_TAP:
