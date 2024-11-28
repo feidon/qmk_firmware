@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/stanfei/Documents/qmk_firmware/keyboards/bastardkb/charybdis",
+      "program": "/Users/stanfei/Documents/qmk_firmware/keyboards/bastardkb/charybdis/build/Debug/outDebug"
+    }
+  ]
+}
