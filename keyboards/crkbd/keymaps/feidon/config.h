@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define EE_HANDS
 
-#define QUICK_TAP_TERM 50
+#define QUICK_TAP_TERM 120
 #define TAPPING_TERM 180
 #define TAPPING_TERM_PER_KEY
 
