@@ -164,6 +164,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   )
 };
 
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case TD1:
+        case TD2:
+        case TD3:
+        case TD4:
+        case TD0:
+        case TD9:
+        case TD8:
+        case TD7:
+            return 140;
+        default:
+            return TAPPING_TERM;
+    }
+}
+
 void sft1ctl_finished(tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {

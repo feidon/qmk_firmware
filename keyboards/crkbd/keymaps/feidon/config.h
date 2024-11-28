@@ -20,11 +20,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-// #define USE_MATRIX_I2C
+#define EE_HANDS
 
-// #define QUICK_TAP_TERM 0
+#define QUICK_TAP_TERM 50
 #define TAPPING_TERM 180
-
+#define TAPPING_TERM_PER_KEY
 
 // Enable use of pointing device on slave split.
 #define SPLIT_POINTING_ENABLE
