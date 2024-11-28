@@ -25,6 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define QUICK_TAP_TERM 120
 #define TAPPING_TERM 180
 #define TAPPING_TERM_PER_KEY
+#define HOLD_ON_OTHER_KEY_PRESS
+#define COMBO_TERM 40
 
 // Enable use of pointing device on slave split.
 #define SPLIT_POINTING_ENABLE
@@ -45,3 +47,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CIRQUE_PINNACLE_TAP_ENABLE
 #define POINTING_DEVICE_GESTURES_SCROLL_ENABLE
 #define POINTING_DEVICE_GESTURES_CURSOR_GLIDE_ENABLE
+
+// in config.h:
+#define POINTING_DEVICE_AUTO_MOUSE_ENABLE
+// only required if not setting mouse layer elsewhere
+#define AUTO_MOUSE_DEFAULT_LAYER 4
