@@ -174,12 +174,32 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
         case TD9:
         case TD8:
         case TD7:
-            return 140;
+            return 120;
         default:
             return TAPPING_TERM;
     }
 }
 
+enum combos {
+  AB_ESC,
+  JK_TAB,
+  QW_SFT,
+  SD_LAYER
+};
+
+const uint16_t PROGMEM ab_combo[] = {KC_A, KC_B, COMBO_END};
+const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
+const uint16_t PROGMEM qw_combo[] = {KC_Q, KC_W, COMBO_END};
+const uint16_t PROGMEM sd_combo[] = {KC_S, KC_D, COMBO_END};
+
+combo_t key_combos[] = {
+  [AB_ESC] = COMBO(ab_combo, KC_ESC),
+  [JK_TAB] = COMBO(jk_combo, KC_TAB),
+  [QW_SFT] = COMBO(qw_combo, KC_LSFT),
+  [SD_LAYER] = COMBO(sd_combo, MO(_LAYER)),
+};
+
+//{ TapDance
 void sft1ctl_finished(tap_dance_state_t *state, void *user_data) {
     td_state = cur_dance(state);
     switch (td_state) {
@@ -187,9 +207,9 @@ void sft1ctl_finished(tap_dance_state_t *state, void *user_data) {
             register_code16(LSFT(KC_1));
             break;
         case TD_SINGLE_HOLD:
-            register_mods(MOD_BIT(KC_LCTL)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            register_code16(keycode_config(KC_LCTL));
             break;
-        case TD_DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
+        case TD_DOUBLE_SINGLE_TAP:
             tap_code16(LSFT(KC_1));
             register_code16(LSFT(KC_1));
             break;
@@ -204,7 +224,7 @@ void sft1ctl_reset(tap_dance_state_t *state, void *user_data) {
             unregister_code16(LSFT(KC_1));
             break;
         case TD_SINGLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LCTL)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            unregister_code16(keycode_config(KC_LCTL));
             break;
         case TD_DOUBLE_SINGLE_TAP:
             unregister_code16(LSFT(KC_1));
@@ -221,9 +241,9 @@ void sft2gui_finished(tap_dance_state_t *state, void *user_data) {
             register_code16(LSFT(KC_2));
             break;
         case TD_SINGLE_HOLD:
-            register_mods(MOD_BIT(KC_LGUI)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            register_code16(keycode_config(KC_LGUI));
             break;
-        case TD_DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
+        case TD_DOUBLE_SINGLE_TAP:
             tap_code16(LSFT(KC_2));
             register_code16(LSFT(KC_2));
             break;
@@ -238,7 +258,7 @@ void sft2gui_reset(tap_dance_state_t *state, void *user_data) {
             unregister_code16(LSFT(KC_2));
             break;
         case TD_SINGLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LGUI)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            unregister_code16(keycode_config(KC_LGUI));
             break;
         case TD_DOUBLE_SINGLE_TAP:
             unregister_code16(LSFT(KC_2));
@@ -255,9 +275,9 @@ void sft3alt_finished(tap_dance_state_t *state, void *user_data) {
             register_code16(LSFT(KC_3));
             break;
         case TD_SINGLE_HOLD:
-            register_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            register_mods(MOD_BIT(KC_LALT));
             break;
-        case TD_DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
+        case TD_DOUBLE_SINGLE_TAP:
             tap_code16(LSFT(KC_3));
             register_code16(LSFT(KC_3));
             break;
@@ -272,7 +292,7 @@ void sft3alt_reset(tap_dance_state_t *state, void *user_data) {
             unregister_code16(LSFT(KC_3));
             break;
         case TD_SINGLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            unregister_mods(MOD_BIT(KC_LALT));
             break;
         case TD_DOUBLE_SINGLE_TAP:
             unregister_code16(LSFT(KC_3));
@@ -289,9 +309,9 @@ void sft4sft_finished(tap_dance_state_t *state, void *user_data) {
             register_code16(LSFT(KC_4));
             break;
         case TD_SINGLE_HOLD:
-            register_mods(MOD_BIT(KC_LSFT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            register_mods(MOD_BIT(KC_LSFT));
             break;
-        case TD_DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
+        case TD_DOUBLE_SINGLE_TAP:
             tap_code16(LSFT(KC_4));
             register_code16(LSFT(KC_4));
             break;
@@ -306,7 +326,7 @@ void sft4sft_reset(tap_dance_state_t *state, void *user_data) {
             unregister_code16(LSFT(KC_4));
             break;
         case TD_SINGLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LSFT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            unregister_mods(MOD_BIT(KC_LSFT));
             break;
         case TD_DOUBLE_SINGLE_TAP:
             unregister_code16(LSFT(KC_4));
@@ -323,9 +343,9 @@ void sft0ctl_finished(tap_dance_state_t *state, void *user_data){
             register_code16(LSFT(KC_0));
             break;
         case TD_SINGLE_HOLD:
-            register_mods(MOD_BIT(KC_LCTL)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            register_code16(keycode_config(KC_LCTL));
             break;
-        case TD_DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
+        case TD_DOUBLE_SINGLE_TAP:
             tap_code16(LSFT(KC_0));
             register_code16(LSFT(KC_0));
             break;
@@ -340,7 +360,7 @@ void sft0ctl_reset(tap_dance_state_t *state, void *user_data) {
             unregister_code16(LSFT(KC_0));
             break;
         case TD_SINGLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LCTL)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            unregister_code16(keycode_config(KC_LCTL));
             break;
         case TD_DOUBLE_SINGLE_TAP:
             unregister_code16(LSFT(KC_0));
@@ -357,9 +377,9 @@ void sft9gui_finished(tap_dance_state_t *state, void *user_data) {
             register_code16(LSFT(KC_9));
             break;
         case TD_SINGLE_HOLD:
-            register_mods(MOD_BIT(KC_LGUI)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            register_code16(keycode_config(KC_LGUI));
             break;
-        case TD_DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
+        case TD_DOUBLE_SINGLE_TAP:
             tap_code16(LSFT(KC_9));
             register_code16(LSFT(KC_9));
             break;
@@ -374,7 +394,7 @@ void sft9gui_reset(tap_dance_state_t *state, void *user_data) {
             unregister_code16(LSFT(KC_9));
             break;
         case TD_SINGLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LGUI)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            unregister_code16(keycode_config(KC_LGUI));
             break;
         case TD_DOUBLE_SINGLE_TAP:
             unregister_code16(LSFT(KC_9));
@@ -391,9 +411,9 @@ void sft8alt_finished(tap_dance_state_t *state, void *user_data) {
             register_code16(LSFT(KC_8));
             break;
         case TD_SINGLE_HOLD:
-            register_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            register_mods(MOD_BIT(KC_LALT));
             break;
-        case TD_DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
+        case TD_DOUBLE_SINGLE_TAP:
             tap_code16(LSFT(KC_8));
             register_code16(LSFT(KC_8));
             break;
@@ -408,7 +428,7 @@ void sft8alt_reset(tap_dance_state_t *state, void *user_data) {
             unregister_code16(LSFT(KC_8));
             break;
         case TD_SINGLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LALT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            unregister_mods(MOD_BIT(KC_LALT));
             break;
         case TD_DOUBLE_SINGLE_TAP:
             unregister_code16(LSFT(KC_8));
@@ -425,9 +445,9 @@ void sft7sft_finished(tap_dance_state_t *state, void *user_data) {
             register_code16(LSFT(KC_7));
             break;
         case TD_SINGLE_HOLD:
-            register_mods(MOD_BIT(KC_LSFT)); // For a layer-tap key, use `layer_on(_MY_LAYER)` here
+            register_mods(MOD_BIT(KC_LSFT));
             break;
-        case TD_DOUBLE_SINGLE_TAP: // Allow nesting of 2 parens `((` within tapping term
+        case TD_DOUBLE_SINGLE_TAP:
             tap_code16(LSFT(KC_7));
             register_code16(LSFT(KC_7));
             break;
@@ -442,7 +462,7 @@ void sft7sft_reset(tap_dance_state_t *state, void *user_data) {
             unregister_code16(LSFT(KC_7));
             break;
         case TD_SINGLE_HOLD:
-            unregister_mods(MOD_BIT(KC_LSFT)); // For a layer-tap key, use `layer_off(_MY_LAYER)` here
+            unregister_mods(MOD_BIT(KC_LSFT));
             break;
         case TD_DOUBLE_SINGLE_TAP:
             unregister_code16(LSFT(KC_7));
@@ -452,7 +472,6 @@ void sft7sft_reset(tap_dance_state_t *state, void *user_data) {
     }
 }
 
-// Define `ACTION_TAP_DANCE_FN_ADVANCED()` for each tapdance keycode, passing in `finished` and `reset` functions
 tap_dance_action_t tap_dance_actions[] = {
     [SFT1_CTL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, sft1ctl_finished, sft1ctl_reset),
     [SFT2_GUI] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, sft2gui_finished, sft2gui_reset),
@@ -463,3 +482,4 @@ tap_dance_action_t tap_dance_actions[] = {
     [SFT9_GUI] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, sft9gui_finished, sft9gui_reset),
     [SFT0_CTL] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, sft0ctl_finished, sft0ctl_reset),
 };
+//}
