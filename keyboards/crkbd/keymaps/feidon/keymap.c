@@ -45,6 +45,10 @@ enum dilemma_keymap_layers {
 #define CTL_SCL LCTL_T(KC_SCLN)
 #define CTL_O LCTL_T(KC_O)
 
+#define SFT_F6 RSFT_T(KC_F6)
+#define ALT_F7 LALT_T(KC_F7)
+#define GUI_F8 LGUI_T(KC_F8)
+
 #define NAV_Z LT(_NAV, KC_Z)
 #define NAV_SL LT(_NAV, KC_SLSH)
 
@@ -120,7 +124,7 @@ void altlp_reset(tap_dance_state_t *state, void *user_data);
 #define TD7 TD(SFT7_SFT)
 
 enum custom_keycodes {
-    DRAG_SCROLL = SAFE_RANGE,
+    DRG_TG = SAFE_RANGE,
 };
 
 bool set_scrolling = false;
@@ -143,7 +147,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
     KC_LSFT,   NAV_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT,  NAV_SL, KC_RSFT,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-    MO(_MOU),  KC_ENT,  KC_SPC,   MO(_NUM),KC_DEL, PDF(_COL)
+    MO(_MOU),  KC_ENT,  KC_SPC,   MO(_NUM),KC_BSPC, PDF(_COL)
 //`--------------------------'  `--------------------------'
     ),
 
@@ -155,7 +159,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
     KC_LSFT,   NAV_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_K,    KC_M, KC_COMM,  KC_DOT,  NAV_SL, KC_RSFT,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-    MO(_MOU),  KC_ENT,  KC_SPC,   MO(_NUM),KC_DEL,PDF(_BASE)
+    MO(_MOU),  KC_ENT,  KC_SPC,   MO(_NUM),KC_BSPC,PDF(_BASE)
 //`--------------------------'  `--------------------------'
     ),
 
@@ -167,7 +171,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
     _______,SFT_LBRC,SFT_RBRC, KC_LBRC, KC_RBRC,SFT_QUOT,                      KC_QUOT,SFT_MINS, KC_MINS, SFT_EQL,  KC_EQL, _______,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-    _______, _______, _______,    _______, _______, _______
+    _______, _______, KC_DEL,    _______, _______, _______
 //`--------------------------'  `--------------------------'
     ),
 
@@ -175,7 +179,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //,-----------------------------------------------------.                    ,-----------------------------------------------------.
     _______,  KC_GRV, KC_HOME,   KC_UP,  KC_END, KC_PGUP,                        KC_F1,   KC_F2,   KC_F3,   KC_F4, KC_BSLS, _______,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-    _______, _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN,                        KC_F5,   KC_F6,   KC_F7,   KC_F8, _______, _______,
+    _______, _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN,                        KC_F5,  SFT_F6,  ALT_F7,  GUI_F8, KC_LCTL, _______,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
     _______,VOL_DOWN,  VOL_UP,ALT_DOWN,  ALT_UP, CG_TOGG,                        KC_F9,  KC_F10,  KC_F11,  KC_F12, _______, _______,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -185,11 +189,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_MOU] = LAYOUT_split_3x6_3(
 //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-    _______, _______, _______, _______, MS_BTN3, _______,                      MS_BTN3, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______,                      MS_BTN1, MS_BTN2, _______, _______, _______, _______,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-    _______, _______,  DRAG_SCROLL, MS_BTN1, MS_BTN2, _______,                  MS_BTN1, MS_BTN2, DRAG_SCROLL, _______, _______, _______,
+    _______, _______,  DRG_TG, MS_BTN1, MS_BTN2, _______,                      MS_BTN3, _______,  DRG_TG, _______, _______, _______,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-    _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, MS_BTN3, _______,                      _______, _______, _______, _______, _______, _______,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
     _______, _______, _______,    _______, _______, _______
 //`--------------------------'  `--------------------------'
@@ -539,8 +543,8 @@ report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
 // Function to handle key events and enable/disable drag scrolling
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case DRAG_SCROLL:
-            // Toggle set_scrolling when DRAG_SCROLL key is pressed or released
+        case DRG_TG:
+            // Toggle set_scrolling when DRG_TG key is pressed or released
             // set_scrolling = record->event.pressed;
             if (record->event.pressed) {
                 set_scrolling = !set_scrolling;
