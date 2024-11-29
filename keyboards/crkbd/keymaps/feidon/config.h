@@ -20,7 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#define EE_HANDS
+// #define EE_HANDS
+#define MASTER_LEFT
 
 #define QUICK_TAP_TERM 120
 #define TAPPING_TERM 175
@@ -51,3 +52,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define POINTING_DEVICE_AUTO_MOUSE_ENABLE
 #define AUTO_MOUSE_DEFAULT_LAYER 4
+
+#define POINTING_DEVICE_DEBUG
