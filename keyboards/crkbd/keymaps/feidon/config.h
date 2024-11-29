@@ -23,9 +23,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define EE_HANDS
 
 #define QUICK_TAP_TERM 120
-#define TAPPING_TERM 180
+#define TAPPING_TERM 175
 #define TAPPING_TERM_PER_KEY
-#define HOLD_ON_OTHER_KEY_PRESS
+#define PERMISSIVE_HOLD
+// #define HOLD_ON_OTHER_KEY_PRESS
 #define COMBO_TERM 40
 
 // Enable use of pointing device on slave split.
