@@ -125,9 +125,12 @@ void altlp_reset(tap_dance_state_t *state, void *user_data);
 
 enum custom_keycodes {
     DRG_TG = SAFE_RANGE,
+    NAV_SPC
 };
 
 bool set_scrolling = false;
+bool nav_space     = false;
+bool trigger_nav_space     = false;
 
 // Modify these values to adjust the scrolling speed
 #define SCROLL_DIVISOR_H 8.0
@@ -136,6 +139,8 @@ bool set_scrolling = false;
 // Variables to store accumulated scroll values
 float scroll_accumulated_h = 0;
 float scroll_accumulated_v = 0;
+
+#define NAVSPACE_THRESHOLD 30
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -191,9 +196,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //,-----------------------------------------------------.                    ,-----------------------------------------------------.
     _______, _______, _______, _______, _______, _______,                      MS_BTN1, MS_BTN2, _______, _______, _______, _______,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-    _______, _______,  DRG_TG, MS_BTN1, MS_BTN2, _______,                      MS_BTN3, _______,  DRG_TG, _______, _______, _______,
+    _______, _______, NAV_SPC, MS_BTN1, MS_BTN2, _______,                      MS_BTN3, NAV_SPC,  DRG_TG, _______, _______, _______,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-    _______, _______, _______, _______, MS_BTN3, _______,                      _______, _______, _______, _______, _______, _______,
+    _______, DRG_TG, _______, _______, MS_BTN3, _______,                      _______, _______, _______, _______, _______, _______,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
     _______, _______, _______,    _______, _______, _______
 //`--------------------------'  `--------------------------'
@@ -527,7 +532,7 @@ report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
 
         // Assign integer parts of accumulated scroll values to the mouse report
         mouse_report.h = (int8_t)scroll_accumulated_h;
-        mouse_report.v = (int8_t)scroll_accumulated_v;
+        mouse_report.v = -(int8_t)scroll_accumulated_v;
 
         // Update accumulated scroll values by subtracting the integer parts
         scroll_accumulated_h -= (int8_t)scroll_accumulated_h;
@@ -537,6 +542,44 @@ report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
         mouse_report.x = 0;
         mouse_report.y = 0;
     }
+
+    if (nav_space) {
+        if (mouse_report.y < -NAVSPACE_THRESHOLD) {
+            if (!trigger_nav_space) {
+                register_code16(keycode_config(KC_LCTL));
+                tap_code(KC_UP);
+                unregister_code16(keycode_config(KC_LCTL));
+                trigger_nav_space = true;
+            }
+        }
+        else if (mouse_report.y > NAVSPACE_THRESHOLD) {
+            if (!trigger_nav_space) {
+                register_code16(keycode_config(KC_LCTL));
+                tap_code(KC_DOWN);
+                unregister_code16(keycode_config(KC_LCTL));
+                trigger_nav_space = true;
+            }
+        }
+        else if (mouse_report.x < -NAVSPACE_THRESHOLD) {
+            if (!trigger_nav_space) {
+                register_code16(keycode_config(KC_LCTL));
+                tap_code(KC_LEFT);
+                unregister_code16(keycode_config(KC_LCTL));
+                trigger_nav_space = true;
+            }
+        }
+        else if (mouse_report.x > NAVSPACE_THRESHOLD) {
+            if (!trigger_nav_space) {
+                register_code16(keycode_config(KC_LCTL));
+                tap_code(KC_RIGHT);
+                unregister_code16(keycode_config(KC_LCTL));
+                trigger_nav_space = true;
+            }
+        } else {
+            trigger_nav_space = false;
+        }
+    }
+
     return mouse_report;
 }
 
@@ -550,6 +593,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 set_scrolling = !set_scrolling;
             }
             break;
+        case NAV_SPC:
+            nav_space = record->event.pressed;
+            break;
         default:
             break;
     }
@@ -561,6 +607,19 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     // Disable set_scrolling if the current layer is not the AUTO_MOUSE_DEFAULT_LAYER
     if (get_highest_layer(state) != AUTO_MOUSE_DEFAULT_LAYER) {
         set_scrolling = false;
+        nav_space     = false;
+        trigger_nav_space = false;
     }
     return state;
+}
+
+bool is_mouse_record_kb(uint16_t keycode, keyrecord_t* record) {
+    switch(keycode) {
+        case DRG_TG:
+        case NAV_SPC:
+            return true;
+        default:
+            return false;
+    }
+    return  is_mouse_record_user(keycode, record);
 }
