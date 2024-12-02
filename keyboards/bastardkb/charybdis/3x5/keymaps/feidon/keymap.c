@@ -123,10 +123,19 @@ void altlp_reset(tap_dance_state_t *state, void *user_data);
 #define TD7 TD(SFT7_SFT)
 
 enum custom_keycodes {
-    DRG_TOG = SAFE_RANGE,
+    DRG_TG = SAFE_RANGE,
+    NAV_SPC,
+    DPI_UP,
+    DPI_DW,
+    S_D_UP,
+    S_D_DW,
+    SNP_TG
 };
 
 bool set_scrolling = false;
+bool nav_space     = false;
+bool trigger_nav_space = false;
+bool set_snipe = false;
 
 // Modify these values to adjust the scrolling speed
 #define SCROLL_DIVISOR_H 8.0
@@ -135,6 +144,21 @@ bool set_scrolling = false;
 // Variables to store accumulated scroll values
 float scroll_accumulated_h = 0;
 float scroll_accumulated_v = 0;
+
+#define CHARYBDIS_MINIMUM_DEFAULT_DPI 400
+#define CHARYBDIS_DEFAULT_DPI_CONFIG_STEP 200
+#define CHARYBDIS_MINIMUM_SNIPING_DPI 200
+#define CHARYBDIS_SNIPING_DPI_CONFIG_STEP 100
+
+typedef union {
+    uint8_t raw;
+    struct {
+        uint8_t pointer_default_dpi : 4; // 16 steps available.
+        uint8_t pointer_sniping_dpi : 2; // 4 steps available.
+    };
+} charybdis_config_t;
+
+static charybdis_config_t g_charybdis_config = {0};
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -146,7 +170,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
         NAV_Z,    KC_X,    KC_C,    KC_V,    KC_B,     KC_N,    KC_M, KC_COMM,  KC_DOT,  NAV_SL,
   // ╰─────────────────────────────────────────────┤ ├─────────────────────────────────────────────╯
-        DF(_COL), KC_ENT,  KC_SPC,    MO(_NUM),KC_BSPC,DF(_COL)
+        MO(_MOU), KC_ENT,  KC_SPC,    MO(_NUM),KC_BSPC,DF(_COL)
   // ╰───────────────────────────╯   ╰───────────────────────────╯
     ),
 
@@ -158,7 +182,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
         NAV_Z,   KC_X,    KC_C,    KC_V,    KC_B,     KC_K,    KC_M, KC_COMM,  KC_DOT,  NAV_SL,
   // ╰─────────────────────────────────────────────┤ ├─────────────────────────────────────────────╯
-        DF(_BASE),KC_ENT,KC_SPC,      MO(_NUM),KC_BSPC,DF(_BASE)
+        MO(_MOU), KC_ENT,KC_SPC,      MO(_NUM),KC_BSPC,DF(_BASE)
   // ╰───────────────────────────╯   ╰───────────────────────────╯
     ),
 
@@ -186,11 +210,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_MOU] = LAYOUT(
   // ╭─────────────────────────────────────────────╮ ╭─────────────────────────────────────────────╮
-        _______, _______, _______, _______, _______,  MS_BTN1, MS_BTN2, _______, _______, _______,
+        _______, _______, _______, _______, _______,  MS_BTN1, MS_BTN2, _______,  DPI_UP,  S_D_UP,
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
-        _______, DRG_TOG, MS_BTN1, MS_BTN2, _______,  MS_BTN3, _______, DRG_TOG, _______, _______,
+        SNP_TG,  NAV_SPC, MS_BTN1, MS_BTN2, _______,  MS_BTN3, NAV_SPC,  DRG_TG,  DPI_DW,  S_D_DW,
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
-        _______, _______, _______, MS_BTN3, _______,  _______, _______, _______, _______, _______,
+        DRG_TG,  _______, _______, MS_BTN3, _______,  SNP_TG,  _______, _______, _______, _______,
   // ╰─────────────────────────────────────────────┤ ├─────────────────────────────────────────────╯
         _______, _______, _______,    _______, _______, _______
   // ╰───────────────────────────╯   ╰───────────────────────────╯
@@ -535,17 +559,85 @@ report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
         mouse_report.x = 0;
         mouse_report.y = 0;
     }
+
+    if (nav_space) {
+        if (mouse_report.y < -NAVSPACE_THRESHOLD) {
+            if (!trigger_nav_space) {
+                register_code16(keycode_config(keycode_config(KC_LCTL)));
+                tap_code(KC_UP);
+                unregister_code16(keycode_config(keycode_config(KC_LCTL)));
+                trigger_nav_space = true;
+            }
+        }
+        else if (mouse_report.y > NAVSPACE_THRESHOLD) {
+            if (!trigger_nav_space) {
+                register_code16(keycode_config(keycode_config(KC_LCTL)));
+                tap_code(KC_DOWN);
+                unregister_code16(keycode_config(keycode_config(KC_LCTL)));
+                trigger_nav_space = true;
+            }
+        }
+        else if (mouse_report.x < -NAVSPACE_THRESHOLD) {
+            if (!trigger_nav_space) {
+                register_code16(keycode_config(keycode_config(KC_LCTL)));
+                tap_code(KC_LEFT);
+                unregister_code16(keycode_config(keycode_config(KC_LCTL)));
+                trigger_nav_space = true;
+            }
+        }
+        else if (mouse_report.x > NAVSPACE_THRESHOLD) {
+            if (!trigger_nav_space) {
+                register_code16(keycode_config(keycode_config(KC_LCTL)));
+                tap_code(KC_RIGHT);
+                unregister_code16(keycode_config(keycode_config(KC_LCTL)));
+                trigger_nav_space = true;
+            }
+        } else {
+            trigger_nav_space = false;
+        }
+    }
+
     return mouse_report;
 }
 
 // Function to handle key events and enable/disable drag scrolling
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case DRG_TOG:
-            // Toggle set_scrolling when DRG_TOG key is pressed or released
-            // set_scrolling = record->event.pressed;
+        case DRG_TG:
             if (record->event.pressed) {
                 set_scrolling = !set_scrolling;
+            }
+            break;
+        case NAV_SPC:
+            nav_space = record->event.pressed;
+            break;
+        case DPI_UP:
+            if (record->event.pressed) {
+                step_pointer_default_dpi(&g_charybdis_config, true);
+                eeconfig_update_user(g_charybdis_config.raw);
+            }
+            break;
+        case DPI_DW:
+            if (record->event.pressed) {
+                step_pointer_default_dpi(&g_charybdis_config, false);
+                eeconfig_update_user(g_charybdis_config.raw);
+            }
+            break;
+        case S_D_UP:
+            if (record->event.pressed) {
+                step_pointer_sniping_dpi(&g_charybdis_config, true);
+                eeconfig_update_user(g_charybdis_config.raw);
+            }
+            break;
+        case S_D_DW:
+            if (record->event.pressed) {
+                step_pointer_sniping_dpi(&g_charybdis_config, false);
+                eeconfig_update_user(g_charybdis_config.raw);
+            }
+            break;
+        case SNP_TG:
+            if (record->event.pressed) {
+                set_snipe = !set_snipe;
             }
             break;
         default:
@@ -559,6 +651,45 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     // Disable set_scrolling if the current layer is not the AUTO_MOUSE_DEFAULT_LAYER
     if (get_highest_layer(state) != AUTO_MOUSE_DEFAULT_LAYER) {
         set_scrolling = false;
+        nav_space     = false;
+        trigger_nav_space = false;
+        set_snipe = false;
     }
     return state;
+}
+
+static uint16_t get_pointer_default_dpi(charybdis_config_t* config) {
+    return (uint16_t)config->pointer_default_dpi * CHARYBDIS_DEFAULT_DPI_CONFIG_STEP + CHARYBDIS_MINIMUM_DEFAULT_DPI;
+}
+
+static uint16_t get_pointer_sniping_dpi(charybdis_config_t* config) {
+    return (uint16_t)config->pointer_sniping_dpi * CHARYBDIS_SNIPING_DPI_CONFIG_STEP + CHARYBDIS_MINIMUM_SNIPING_DPI;
+}
+
+static void maybe_update_pointing_device_cpi(charybdis_config_t* config) {
+    if (set_snipe) {
+        pointing_device_set_cpi(get_pointer_sniping_dpi(config));
+    } else {
+        pointing_device_set_cpi(get_pointer_default_dpi(config));
+    }
+}
+
+static void step_pointer_default_dpi(charybdis_config_t* config, bool forward) {
+    config->pointer_default_dpi += forward ? 1 : -1;
+    maybe_update_pointing_device_cpi(config);
+}
+
+static void step_pointer_sniping_dpi(charybdis_config_t* config, bool forward) {
+    config->pointer_sniping_dpi += forward ? 1 : -1;
+    maybe_update_pointing_device_cpi(config);
+}
+
+void keyboard_post_init_user(void) {
+  g_charybdis_config.raw = eeconfig_read_user();
+}
+
+void eeconfig_init_user(void) {
+    g_charybdis_config.raw = 0;
+    maybe_update_pointing_device_cpi(&g_charybdis_config);
+    eeconfig_update_user(g_charybdis_config.raw);
 }
