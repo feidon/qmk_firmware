@@ -612,13 +612,3 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     }
     return state;
 }
-
-bool is_mouse_record_kb(uint16_t keycode, keyrecord_t* record) {
-    switch(keycode) {
-        case DRG_TG:
-            return true;
-        default:
-            return false;
-    }
-    return  is_mouse_record_user(keycode, record);
-}
