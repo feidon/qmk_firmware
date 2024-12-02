@@ -145,6 +145,8 @@ bool set_snipe = false;
 float scroll_accumulated_h = 0;
 float scroll_accumulated_v = 0;
 
+#define NAVSPACE_THRESHOLD 15
+
 #define CHARYBDIS_MINIMUM_DEFAULT_DPI 400
 #define CHARYBDIS_DEFAULT_DPI_CONFIG_STEP 200
 #define CHARYBDIS_MINIMUM_SNIPING_DPI 200
@@ -539,6 +541,32 @@ tap_dance_action_t tap_dance_actions[] = {
 };
 //}
 
+static uint16_t get_pointer_default_dpi(charybdis_config_t* config) {
+    return (uint16_t)config->pointer_default_dpi * CHARYBDIS_DEFAULT_DPI_CONFIG_STEP + CHARYBDIS_MINIMUM_DEFAULT_DPI;
+}
+
+static uint16_t get_pointer_sniping_dpi(charybdis_config_t* config) {
+    return (uint16_t)config->pointer_sniping_dpi * CHARYBDIS_SNIPING_DPI_CONFIG_STEP + CHARYBDIS_MINIMUM_SNIPING_DPI;
+}
+
+static void maybe_update_pointing_device_cpi(charybdis_config_t* config) {
+    if (set_snipe) {
+        pointing_device_set_cpi(get_pointer_sniping_dpi(config));
+    } else {
+        pointing_device_set_cpi(get_pointer_default_dpi(config));
+    }
+}
+
+static void step_pointer_default_dpi(charybdis_config_t* config, bool forward) {
+    config->pointer_default_dpi += forward ? 1 : -1;
+    maybe_update_pointing_device_cpi(config);
+}
+
+static void step_pointer_sniping_dpi(charybdis_config_t* config, bool forward) {
+    config->pointer_sniping_dpi += forward ? 1 : -1;
+    maybe_update_pointing_device_cpi(config);
+}
+
 // Function to handle mouse reports and perform drag scrolling
 report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
     // Check if drag scrolling is active
@@ -614,30 +642,31 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case DPI_UP:
             if (record->event.pressed) {
                 step_pointer_default_dpi(&g_charybdis_config, true);
-                eeconfig_update_user(g_charybdis_config.raw);
+                eeconfig_update_kb(g_charybdis_config.raw);
             }
             break;
         case DPI_DW:
             if (record->event.pressed) {
                 step_pointer_default_dpi(&g_charybdis_config, false);
-                eeconfig_update_user(g_charybdis_config.raw);
+                eeconfig_update_kb(g_charybdis_config.raw);
             }
             break;
         case S_D_UP:
             if (record->event.pressed) {
                 step_pointer_sniping_dpi(&g_charybdis_config, true);
-                eeconfig_update_user(g_charybdis_config.raw);
+                eeconfig_update_kb(g_charybdis_config.raw);
             }
             break;
         case S_D_DW:
             if (record->event.pressed) {
                 step_pointer_sniping_dpi(&g_charybdis_config, false);
-                eeconfig_update_user(g_charybdis_config.raw);
+                eeconfig_update_kb(g_charybdis_config.raw);
             }
             break;
         case SNP_TG:
             if (record->event.pressed) {
                 set_snipe = !set_snipe;
+                maybe_update_pointing_device_cpi(&g_charybdis_config);
             }
             break;
         default:
@@ -658,38 +687,23 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     return state;
 }
 
-static uint16_t get_pointer_default_dpi(charybdis_config_t* config) {
-    return (uint16_t)config->pointer_default_dpi * CHARYBDIS_DEFAULT_DPI_CONFIG_STEP + CHARYBDIS_MINIMUM_DEFAULT_DPI;
+static void read_charybdis_config_from_eeprom(charybdis_config_t* config) {
+    config->raw                   = eeconfig_read_kb() & 0xff;
 }
 
-static uint16_t get_pointer_sniping_dpi(charybdis_config_t* config) {
-    return (uint16_t)config->pointer_sniping_dpi * CHARYBDIS_SNIPING_DPI_CONFIG_STEP + CHARYBDIS_MINIMUM_SNIPING_DPI;
+void matrix_init_kb(void) {
+    read_charybdis_config_from_eeprom(&g_charybdis_config);
+    matrix_init_user();
 }
 
-static void maybe_update_pointing_device_cpi(charybdis_config_t* config) {
-    if (set_snipe) {
-        pointing_device_set_cpi(get_pointer_sniping_dpi(config));
-    } else {
-        pointing_device_set_cpi(get_pointer_default_dpi(config));
-    }
-}
-
-static void step_pointer_default_dpi(charybdis_config_t* config, bool forward) {
-    config->pointer_default_dpi += forward ? 1 : -1;
-    maybe_update_pointing_device_cpi(config);
-}
-
-static void step_pointer_sniping_dpi(charybdis_config_t* config, bool forward) {
-    config->pointer_sniping_dpi += forward ? 1 : -1;
-    maybe_update_pointing_device_cpi(config);
-}
-
-void keyboard_post_init_user(void) {
-  g_charybdis_config.raw = eeconfig_read_user();
-}
-
-void eeconfig_init_user(void) {
-    g_charybdis_config.raw = 0;
+void keyboard_post_init_kb(void) {
     maybe_update_pointing_device_cpi(&g_charybdis_config);
-    eeconfig_update_user(g_charybdis_config.raw);
+    keyboard_post_init_user();
+}
+
+void eeconfig_init_kb(void) {
+    g_charybdis_config.raw = 0;
+    eeconfig_update_kb(g_charybdis_config.raw);
+    maybe_update_pointing_device_cpi(&g_charybdis_config);
+    eeconfig_init_user();
 }
