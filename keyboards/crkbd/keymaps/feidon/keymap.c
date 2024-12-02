@@ -142,7 +142,6 @@ float scroll_accumulated_v = 0;
 
 #define NAVSPACE_THRESHOLD 30
 
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE] = LAYOUT_split_3x6_3(
 //,-----------------------------------------------------.                    ,-----------------------------------------------------.
@@ -546,37 +545,39 @@ report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
     if (nav_space) {
         if (mouse_report.y < -NAVSPACE_THRESHOLD) {
             if (!trigger_nav_space) {
-                register_code16(keycode_config(keycode_config(KC_LCTL)));
+                register_code16(keycode_config(KC_LCTL));
                 tap_code(KC_UP);
-                unregister_code16(keycode_config(keycode_config(KC_LCTL)));
+                unregister_code16(keycode_config(KC_LCTL));
                 trigger_nav_space = true;
             }
         }
         else if (mouse_report.y > NAVSPACE_THRESHOLD) {
             if (!trigger_nav_space) {
-                register_code16(keycode_config(keycode_config(KC_LCTL)));
+                register_code16(keycode_config(KC_LCTL));
                 tap_code(KC_DOWN);
-                unregister_code16(keycode_config(keycode_config(KC_LCTL)));
+                unregister_code16(keycode_config(KC_LCTL));
                 trigger_nav_space = true;
             }
         }
         else if (mouse_report.x < -NAVSPACE_THRESHOLD) {
             if (!trigger_nav_space) {
-                register_code16(keycode_config(keycode_config(KC_LCTL)));
+                register_code16(keycode_config(KC_LCTL));
                 tap_code(KC_LEFT);
-                unregister_code16(keycode_config(keycode_config(KC_LCTL)));
+                unregister_code16(keycode_config(KC_LCTL));
                 trigger_nav_space = true;
             }
         }
         else if (mouse_report.x > NAVSPACE_THRESHOLD) {
             if (!trigger_nav_space) {
-                register_code16(keycode_config(keycode_config(KC_LCTL)));
+                register_code16(keycode_config(KC_LCTL));
                 tap_code(KC_RIGHT);
-                unregister_code16(keycode_config(keycode_config(KC_LCTL)));
+                unregister_code16(keycode_config(KC_LCTL));
                 trigger_nav_space = true;
             }
         } else {
             trigger_nav_space = false;
+            mouse_report.x = 0;
+            mouse_report.y = 0;
         }
     }
 
