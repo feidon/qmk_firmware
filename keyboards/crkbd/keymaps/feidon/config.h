@@ -20,11 +20,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-// #define EE_HANDS
-#define MASTER_LEFT
+#define EE_HANDS
+// #define MASTER_LEFT
 
-#define QUICK_TAP_TERM 120
-#define TAPPING_TERM 175
+#define QUICK_TAP_TERM 0
+#define TAPPING_TERM 200
 #define TAPPING_TERM_PER_KEY
 #define PERMISSIVE_HOLD
 // #define HOLD_ON_OTHER_KEY_PRESS
