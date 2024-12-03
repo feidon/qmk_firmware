@@ -208,21 +208,21 @@ void pointing_device_init_user(void) {
     set_auto_mouse_enable(true);
 }
 
-uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case TD1:
-        case TD2:
-        case TD3:
-        case TD4:
-        case TD0:
-        case TD9:
-        case TD8:
-        case TD7:
-            return 120;
-        default:
-            return TAPPING_TERM;
-    }
-}
+// uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+//     switch (keycode) {
+//         case TD1:
+//         case TD2:
+//         case TD3:
+//         case TD4:
+//         case TD0:
+//         case TD9:
+//         case TD8:
+//         case TD7:
+//             return 120;
+//         default:
+//             return TAPPING_TERM;
+//     }
+// }
 
 //{ Combos
 const uint16_t PROGMEM cv_combo[] = {KC_C, KC_V, COMBO_END};

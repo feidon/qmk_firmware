@@ -172,19 +172,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
         NAV_Z,    KC_X,    KC_C,    KC_V,    KC_B,     KC_N,    KC_M, KC_COMM,  KC_DOT,  NAV_SL,
   // ╰─────────────────────────────────────────────┤ ├─────────────────────────────────────────────╯
-        MO(_MOU), KC_ENT,  KC_SPC,    MO(_NUM),KC_BSPC,DF(_COL)
+        KC_ENT,  KC_SPC, MO(_MOU),     DF(_COL),MO(_NUM),KC_BSPC
   // ╰───────────────────────────╯   ╰───────────────────────────╯
     ),
 
     [_COL] = LAYOUT(
   // ╭─────────────────────────────────────────────╮ ╭─────────────────────────────────────────────╮
-        KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,     KC_J,    KC_L,    KC_U,    KC_Y, KC_SCLN,
+        KC_Q,     KC_W,    KC_F,    KC_P,    KC_G,     KC_J,    KC_L,    KC_U,    KC_Y, KC_SCLN,
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
         CTL_A,   GUI_R,   ALT_S,  SFT_TT,   KC_D,     KC_H,   SFT_N,   ALT_E,   GUI_I,   CTL_O,
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
-        NAV_Z,   KC_X,    KC_C,    KC_V,    KC_B,     KC_K,    KC_M, KC_COMM,  KC_DOT,  NAV_SL,
+        NAV_Z,    KC_X,    KC_C,    KC_V,    KC_B,     KC_K,    KC_M, KC_COMM,  KC_DOT,  NAV_SL,
   // ╰─────────────────────────────────────────────┤ ├─────────────────────────────────────────────╯
-        MO(_MOU), KC_ENT,KC_SPC,      MO(_NUM),KC_BSPC,DF(_BASE)
+        KC_ENT, KC_SPC, MO(_MOU),      DF(_BASE),MO(_NUM),KC_BSPC
   // ╰───────────────────────────╯   ╰───────────────────────────╯
     ),
 
@@ -228,21 +228,21 @@ void pointing_device_init_user(void) {
     set_auto_mouse_enable(true);
 }
 
-uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case TD1:
-        case TD2:
-        case TD3:
-        case TD4:
-        case TD0:
-        case TD9:
-        case TD8:
-        case TD7:
-            return 120;
-        default:
-            return TAPPING_TERM;
-    }
-}
+// uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+//     switch (keycode) {
+//         case TD1:
+//         case TD2:
+//         case TD3:
+//         case TD4:
+//         case TD0:
+//         case TD9:
+//         case TD8:
+//         case TD7:
+//             return 160;
+//         default:
+//             return TAPPING_TERM;
+//     }
+// }
 
 //{ Combos
 const uint16_t PROGMEM cv_combo[] = {KC_C, KC_V, COMBO_END};
