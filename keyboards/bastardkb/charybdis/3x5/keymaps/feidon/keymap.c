@@ -106,8 +106,6 @@ td_state_t cur_dance(tap_dance_state_t *state) {
         if (state->interrupted || !state->pressed) return TD_SINGLE_TAP;
         else return TD_SINGLE_HOLD;
     }
-
-    if (state->count == 2) return TD_DOUBLE_SINGLE_TAP;
     else return TD_UNKNOWN; // Any number higher than the maximum state value you return above
 }
 void altlp_finished(tap_dance_state_t *state, void *user_data);
@@ -228,21 +226,21 @@ void pointing_device_init_user(void) {
     set_auto_mouse_enable(true);
 }
 
-// uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-//     switch (keycode) {
-//         case TD1:
-//         case TD2:
-//         case TD3:
-//         case TD4:
-//         case TD0:
-//         case TD9:
-//         case TD8:
-//         case TD7:
-//             return 160;
-//         default:
-//             return TAPPING_TERM;
-//     }
-// }
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case TD1:
+        case TD2:
+        case TD3:
+        case TD4:
+        case TD0:
+        case TD9:
+        case TD8:
+        case TD7:
+            return 150;
+        default:
+            return TAPPING_TERM;
+    }
+}
 
 //{ Combos
 const uint16_t PROGMEM cv_combo[] = {KC_C, KC_V, COMBO_END};
