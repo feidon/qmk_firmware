@@ -96,8 +96,7 @@ typedef enum {
     TD_NONE,
     TD_UNKNOWN,
     TD_SINGLE_TAP,
-    TD_SINGLE_HOLD,
-    TD_DOUBLE_SINGLE_TAP
+    TD_SINGLE_HOLD
 } td_state_t;
 
 static td_state_t td_state;
@@ -264,10 +263,6 @@ void sft1ctl_finished(tap_dance_state_t *state, void *user_data) {
         case TD_SINGLE_HOLD:
             register_code16(keycode_config(KC_LCTL));
             break;
-        case TD_DOUBLE_SINGLE_TAP:
-            tap_code16(LSFT(KC_1));
-            register_code16(LSFT(KC_1));
-            break;
         default:
             break;
     }
@@ -280,9 +275,6 @@ void sft1ctl_reset(tap_dance_state_t *state, void *user_data) {
             break;
         case TD_SINGLE_HOLD:
             unregister_code16(keycode_config(KC_LCTL));
-            break;
-        case TD_DOUBLE_SINGLE_TAP:
-            unregister_code16(LSFT(KC_1));
             break;
         default:
             break;
@@ -298,10 +290,6 @@ void sft2gui_finished(tap_dance_state_t *state, void *user_data) {
         case TD_SINGLE_HOLD:
             register_code16(keycode_config(KC_LGUI));
             break;
-        case TD_DOUBLE_SINGLE_TAP:
-            tap_code16(LSFT(KC_2));
-            register_code16(LSFT(KC_2));
-            break;
         default:
             break;
     }
@@ -314,9 +302,6 @@ void sft2gui_reset(tap_dance_state_t *state, void *user_data) {
             break;
         case TD_SINGLE_HOLD:
             unregister_code16(keycode_config(KC_LGUI));
-            break;
-        case TD_DOUBLE_SINGLE_TAP:
-            unregister_code16(LSFT(KC_2));
             break;
         default:
             break;
@@ -332,10 +317,6 @@ void sft3alt_finished(tap_dance_state_t *state, void *user_data) {
         case TD_SINGLE_HOLD:
             register_mods(MOD_BIT(KC_LALT));
             break;
-        case TD_DOUBLE_SINGLE_TAP:
-            tap_code16(LSFT(KC_3));
-            register_code16(LSFT(KC_3));
-            break;
         default:
             break;
     }
@@ -348,9 +329,6 @@ void sft3alt_reset(tap_dance_state_t *state, void *user_data) {
             break;
         case TD_SINGLE_HOLD:
             unregister_mods(MOD_BIT(KC_LALT));
-            break;
-        case TD_DOUBLE_SINGLE_TAP:
-            unregister_code16(LSFT(KC_3));
             break;
         default:
             break;
@@ -366,10 +344,6 @@ void sft4sft_finished(tap_dance_state_t *state, void *user_data) {
         case TD_SINGLE_HOLD:
             register_mods(MOD_BIT(KC_LSFT));
             break;
-        case TD_DOUBLE_SINGLE_TAP:
-            tap_code16(LSFT(KC_4));
-            register_code16(LSFT(KC_4));
-            break;
         default:
             break;
     }
@@ -382,9 +356,6 @@ void sft4sft_reset(tap_dance_state_t *state, void *user_data) {
             break;
         case TD_SINGLE_HOLD:
             unregister_mods(MOD_BIT(KC_LSFT));
-            break;
-        case TD_DOUBLE_SINGLE_TAP:
-            unregister_code16(LSFT(KC_4));
             break;
         default:
             break;
@@ -400,10 +371,6 @@ void sft0ctl_finished(tap_dance_state_t *state, void *user_data){
         case TD_SINGLE_HOLD:
             register_code16(keycode_config(KC_LCTL));
             break;
-        case TD_DOUBLE_SINGLE_TAP:
-            tap_code16(LSFT(KC_0));
-            register_code16(LSFT(KC_0));
-            break;
         default:
             break;
     }
@@ -416,9 +383,6 @@ void sft0ctl_reset(tap_dance_state_t *state, void *user_data) {
             break;
         case TD_SINGLE_HOLD:
             unregister_code16(keycode_config(KC_LCTL));
-            break;
-        case TD_DOUBLE_SINGLE_TAP:
-            unregister_code16(LSFT(KC_0));
             break;
         default:
             break;
@@ -434,10 +398,6 @@ void sft9gui_finished(tap_dance_state_t *state, void *user_data) {
         case TD_SINGLE_HOLD:
             register_code16(keycode_config(KC_LGUI));
             break;
-        case TD_DOUBLE_SINGLE_TAP:
-            tap_code16(LSFT(KC_9));
-            register_code16(LSFT(KC_9));
-            break;
         default:
             break;
     }
@@ -450,9 +410,6 @@ void sft9gui_reset(tap_dance_state_t *state, void *user_data) {
             break;
         case TD_SINGLE_HOLD:
             unregister_code16(keycode_config(KC_LGUI));
-            break;
-        case TD_DOUBLE_SINGLE_TAP:
-            unregister_code16(LSFT(KC_9));
             break;
         default:
             break;
@@ -468,10 +425,6 @@ void sft8alt_finished(tap_dance_state_t *state, void *user_data) {
         case TD_SINGLE_HOLD:
             register_mods(MOD_BIT(KC_LALT));
             break;
-        case TD_DOUBLE_SINGLE_TAP:
-            tap_code16(LSFT(KC_8));
-            register_code16(LSFT(KC_8));
-            break;
         default:
             break;
     }
@@ -484,9 +437,6 @@ void sft8alt_reset(tap_dance_state_t *state, void *user_data) {
             break;
         case TD_SINGLE_HOLD:
             unregister_mods(MOD_BIT(KC_LALT));
-            break;
-        case TD_DOUBLE_SINGLE_TAP:
-            unregister_code16(LSFT(KC_8));
             break;
         default:
             break;
@@ -502,10 +452,6 @@ void sft7sft_finished(tap_dance_state_t *state, void *user_data) {
         case TD_SINGLE_HOLD:
             register_mods(MOD_BIT(KC_LSFT));
             break;
-        case TD_DOUBLE_SINGLE_TAP:
-            tap_code16(LSFT(KC_7));
-            register_code16(LSFT(KC_7));
-            break;
         default:
             break;
     }
@@ -518,9 +464,6 @@ void sft7sft_reset(tap_dance_state_t *state, void *user_data) {
             break;
         case TD_SINGLE_HOLD:
             unregister_mods(MOD_BIT(KC_LSFT));
-            break;
-        case TD_DOUBLE_SINGLE_TAP:
-            unregister_code16(LSFT(KC_7));
             break;
         default:
             break;
@@ -589,33 +532,33 @@ report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
     if (nav_space) {
         if (mouse_report.y < -NAVSPACE_THRESHOLD) {
             if (!trigger_nav_space) {
-                register_code16(keycode_config(keycode_config(KC_LCTL)));
+                register_code16(keycode_config(KC_LCTL));
                 tap_code(KC_UP);
-                unregister_code16(keycode_config(keycode_config(KC_LCTL)));
+                unregister_code16(keycode_config(KC_LCTL));
                 trigger_nav_space = true;
             }
         }
         else if (mouse_report.y > NAVSPACE_THRESHOLD) {
             if (!trigger_nav_space) {
-                register_code16(keycode_config(keycode_config(KC_LCTL)));
+                register_code16(keycode_config(KC_LCTL));
                 tap_code(KC_DOWN);
-                unregister_code16(keycode_config(keycode_config(KC_LCTL)));
+                unregister_code16(keycode_config(KC_LCTL));
                 trigger_nav_space = true;
             }
         }
         else if (mouse_report.x < -NAVSPACE_THRESHOLD) {
             if (!trigger_nav_space) {
-                register_code16(keycode_config(keycode_config(KC_LCTL)));
+                register_code16(keycode_config(KC_LCTL));
                 tap_code(KC_LEFT);
-                unregister_code16(keycode_config(keycode_config(KC_LCTL)));
+                unregister_code16(keycode_config(KC_LCTL));
                 trigger_nav_space = true;
             }
         }
         else if (mouse_report.x > NAVSPACE_THRESHOLD) {
             if (!trigger_nav_space) {
-                register_code16(keycode_config(keycode_config(KC_LCTL)));
+                register_code16(keycode_config(KC_LCTL));
                 tap_code(KC_RIGHT);
-                unregister_code16(keycode_config(keycode_config(KC_LCTL)));
+                unregister_code16(keycode_config(KC_LCTL));
                 trigger_nav_space = true;
             }
         } else {
