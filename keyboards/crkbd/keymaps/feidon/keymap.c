@@ -486,33 +486,33 @@ report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
     if (nav_space) {
         if (mouse_report.y < -NAVSPACE_THRESHOLD) {
             if (!trigger_nav_space) {
-                register_code16(keycode_config(KC_LCTL));
+                register_code16(keycode_config(keycode_config(KC_LCTL)));
                 tap_code(KC_UP);
-                unregister_code16(keycode_config(KC_LCTL));
+                unregister_code16(keycode_config(keycode_config(KC_LCTL)));
                 trigger_nav_space = true;
             }
         }
         else if (mouse_report.y > NAVSPACE_THRESHOLD) {
             if (!trigger_nav_space) {
-                register_code16(keycode_config(KC_LCTL));
+                register_code16(keycode_config(keycode_config(KC_LCTL)));
                 tap_code(KC_DOWN);
-                unregister_code16(keycode_config(KC_LCTL));
+                unregister_code16(keycode_config(keycode_config(KC_LCTL)));
                 trigger_nav_space = true;
             }
         }
         else if (mouse_report.x < -NAVSPACE_THRESHOLD) {
             if (!trigger_nav_space) {
-                register_code16(keycode_config(KC_LCTL));
+                register_code16(keycode_config(keycode_config(KC_LCTL)));
                 tap_code(KC_LEFT);
-                unregister_code16(keycode_config(KC_LCTL));
+                unregister_code16(keycode_config(keycode_config(KC_LCTL)));
                 trigger_nav_space = true;
             }
         }
         else if (mouse_report.x > NAVSPACE_THRESHOLD) {
             if (!trigger_nav_space) {
-                register_code16(keycode_config(KC_LCTL));
+                register_code16(keycode_config(keycode_config(KC_LCTL)));
                 tap_code(KC_RIGHT);
-                unregister_code16(keycode_config(KC_LCTL));
+                unregister_code16(keycode_config(keycode_config(KC_LCTL)));
                 trigger_nav_space = true;
             }
         } else {
