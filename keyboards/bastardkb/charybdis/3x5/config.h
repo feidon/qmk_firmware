@@ -19,4 +19,4 @@
 #pragma once
 
 /* Trackball angle adjustment. */
-#define ROTATIONAL_TRANSFORM_ANGLE -10
+#define ROTATIONAL_TRANSFORM_ANGLE -20
