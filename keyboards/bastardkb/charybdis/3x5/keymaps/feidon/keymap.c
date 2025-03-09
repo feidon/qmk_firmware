@@ -126,7 +126,8 @@ enum custom_keycodes {
     DPI_DW,
     S_D_UP,
     S_D_DW,
-    SNP_TG
+    SNP_TG,
+    SND_SW
 };
 
 bool set_scrolling = false;
@@ -204,7 +205,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
         VOL_DOWN, VOL_UP,ALT_DOWN,  ALT_UP, CG_TOGG,    KC_F9,  KC_F10,  KC_F11,  KC_F12, _______,
   // ╰─────────────────────────────────────────────┤ ├─────────────────────────────────────────────╯
-        _______, _______,  _______,   _______, _______, _______
+        _______, _______,  _______,   KC_VOLD, KC_VOLU, SND_SW
   // ╰───────────────────────────╯   ╰───────────────────────────╯
     ),
     [_MOU] = LAYOUT(
@@ -608,6 +609,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 set_snipe = !set_snipe;
                 maybe_update_pointing_device_cpi(&g_charybdis_config);
+            }
+            break;
+        case SND_SW:
+            if (record->event.pressed) {
+                register_code16(keycode_config(keycode_config(KC_LCTL)));
+                register_code16(keycode_config(keycode_config(KC_LALT)));
+                register_code16(keycode_config(keycode_config(KC_LGUI)));
+                tap_code(KC_F1);
+                unregister_code16(keycode_config(keycode_config(KC_LCTL)));
+                unregister_code16(keycode_config(keycode_config(KC_LALT)));
+                unregister_code16(keycode_config(keycode_config(KC_LGUI)));
             }
             break;
         default:
