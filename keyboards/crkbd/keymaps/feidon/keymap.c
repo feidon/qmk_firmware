@@ -21,9 +21,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 enum dilemma_keymap_layers {
     _BASE = 0,
     _COL = 1,
-    _NUM = 2,
-    _NAV = 3,
-    _MOU = 4,
+    _NUM1 = 2,
+    _NUM2 = 3,
+    _NAV = 4,
+    _MOU = 5,
 };
 
 #define CTL_TAB LCTL_T(KC_TAB)
@@ -75,6 +76,9 @@ enum dilemma_keymap_layers {
 #define VOL_UP KC_KB_VOLUME_UP
 #define VOL_DOWN KC_KB_VOLUME_DOWN
 
+#define GUI_LEFT LGUI(KC_LEFT)
+#define GUI_RGHT LGUI(KC_RGHT)
+
 enum combos {
     CV_TAB,
     MCOM_ENT,
@@ -121,7 +125,7 @@ void altlp_reset(tap_dance_state_t *state, void *user_data);
 #define TD7 TD(SFT7_SFT)
 
 enum custom_keycodes {
-    DRG_TG = SAFE_RANGE,
+    DRG_H = SAFE_RANGE,
 };
 
 bool set_scrolling = false;
@@ -145,7 +149,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
     KC_LSFT,   NAV_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT,  NAV_SL, KC_RSFT,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-    MO(_MOU),  KC_ENT,  KC_SPC,   MO(_NUM),KC_BSPC, PDF(_COL)
+    MO(_MOU),  KC_ENT,  KC_SPC,   MO(_NUM1),KC_BSPC,MO(_NAV)
 //`--------------------------'  `--------------------------'
     ),
 
@@ -157,11 +161,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
     KC_LSFT,   NAV_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_K,    KC_M, KC_COMM,  KC_DOT,  NAV_SL, KC_RSFT,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-    MO(_MOU),  KC_ENT,  KC_SPC,   MO(_NUM),KC_BSPC,PDF(_BASE)
+    MO(_MOU),  KC_ENT,  KC_SPC,   MO(_NUM2),KC_BSPC,MO(_NAV)
 //`--------------------------'  `--------------------------'
     ),
 
-    [_NUM] = LAYOUT_split_3x6_3(
+    [_NUM1] = LAYOUT_split_3x6_3(
 //,-----------------------------------------------------.                    ,-----------------------------------------------------.
     _______,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, _______,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -169,7 +173,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
     _______,SFT_LBRC,SFT_RBRC, KC_LBRC, KC_RBRC,SFT_QUOT,                      KC_QUOT,SFT_MINS, KC_MINS, SFT_EQL,  KC_EQL, _______,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-    _______, _______, KC_DEL,    _______, _______, _______
+    _______, _______, KC_DEL,    _______, _______, PDF(_COL)
+//`--------------------------'  `--------------------------'
+    ),
+
+    [_NUM2] = LAYOUT_split_3x6_3(
+//,-----------------------------------------------------.                    ,-----------------------------------------------------.
+    _______,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, _______,
+//|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+    _______,     TD1,     TD2,     TD3,     TD4,   SFT_5,                        SFT_6,     TD7,     TD8,     TD9,     TD0, _______,
+//|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+    _______,SFT_LBRC,SFT_RBRC, KC_LBRC, KC_RBRC,SFT_QUOT,                      KC_QUOT,SFT_MINS, KC_MINS, SFT_EQL,  KC_EQL, _______,
+//|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+    _______, _______, KC_DEL,    _______, _______, PDF(_BASE)
 //`--------------------------'  `--------------------------'
     ),
 
@@ -179,19 +195,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
     _______, _______, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN,                        KC_F5,  SFT_F6,  ALT_F7,  GUI_F8, KC_LCTL, _______,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-    _______,VOL_DOWN,  VOL_UP,ALT_DOWN,  ALT_UP, CG_TOGG,                        KC_F9,  KC_F10,  KC_F11,  KC_F12, _______, _______,
+    _______, _______, _______,ALT_DOWN,  ALT_UP, CG_TOGG,                        KC_F9,  KC_F10,  KC_F11,  KC_F12, _______, _______,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-    _______, _______, _______,    _______, _______, _______
+    VOL_DOWN, VOL_UP, _______,    _______, VOL_DOWN, VOL_UP
 //`--------------------------'  `--------------------------'
     ),
 
     [_MOU] = LAYOUT_split_3x6_3(
 //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-    _______, _______, _______, _______, _______, _______,                      MS_BTN1, MS_BTN2,  DRG_TG, _______, _______, _______,
+    _______, _______, _______,GUI_LEFT,GUI_RGHT, _______,                     GUI_LEFT,GUI_RGHT, _______, _______, _______, _______,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-    _______, _______,  DRG_TG, MS_BTN1, MS_BTN2, _______,                      MS_BTN3, _______, _______, _______, _______, _______,
+    _______, _______,   DRG_H, MS_BTN1, MS_BTN2, _______,                      MS_BTN1, MS_BTN2,   DRG_H, _______, _______, _______,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-    _______, _______, _______, _______, MS_BTN3, _______,                      _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, MS_BTN3, _______,                      MS_BTN3, _______, _______, _______, _______, _______,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
     _______, _______, _______,    _______, _______, _______
 //`--------------------------'  `--------------------------'
@@ -485,8 +501,12 @@ report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case DRG_TG:
-            set_scrolling = record->event.pressed;
+        case DRG_H:
+            if (record->event.pressed) {
+                set_scrolling = !set_scrolling;
+            } else {
+                set_scrolling = false;
+            }
             break;
         default:
             break;
@@ -494,11 +514,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-// Function to handle layer changes and disable drag scrolling when not in AUTO_MOUSE_DEFAULT_LAYER
 layer_state_t layer_state_set_user(layer_state_t state) {
-    // Disable set_scrolling if the current layer is not the AUTO_MOUSE_DEFAULT_LAYER
     if (get_highest_layer(state) != AUTO_MOUSE_DEFAULT_LAYER) {
         set_scrolling = false;
     }
     return state;
+}
+
+
+bool is_mouse_record_kb(uint16_t keycode, keyrecord_t* record) {
+    switch(keycode) {
+        case DRG_H:
+            return true;
+        default:
+            return false;
+    }
+    return  is_mouse_record_user(keycode, record);
 }
