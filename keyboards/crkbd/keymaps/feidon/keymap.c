@@ -131,8 +131,8 @@ enum custom_keycodes {
 bool set_scrolling = false;
 
 // Modify these values to adjust the scrolling speed
-#define SCROLL_DIVISOR_H 10.0
-#define SCROLL_DIVISOR_V 10.0
+#define SCROLL_DIVISOR_H 16.0
+#define SCROLL_DIVISOR_V 16.0
 
 // Variables to store accumulated scroll values
 float scroll_accumulated_h = 0;
@@ -203,11 +203,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_MOU] = LAYOUT_split_3x6_3(
 //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-    _______, _______, _______,GUI_LEFT,GUI_RGHT, _______,                     GUI_LEFT,GUI_RGHT, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______,                      MS_BTN1, MS_BTN2, _______, _______, _______, _______,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-    _______, _______,   DRG_H, MS_BTN1, MS_BTN2, _______,                      MS_BTN1, MS_BTN2,   DRG_H, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______,                     GUI_LEFT,GUI_RGHT,   DRG_H, _______, _______, _______,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-    _______, _______, _______, _______, MS_BTN3, _______,                      MS_BTN3, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______,                      MS_BTN3, _______, _______, _______, _______, _______,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
     _______, _______, _______,    _______, _______, _______
 //`--------------------------'  `--------------------------'
@@ -525,6 +525,8 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 bool is_mouse_record_kb(uint16_t keycode, keyrecord_t* record) {
     switch(keycode) {
         case DRG_H:
+        case GUI_LEFT:
+        case GUI_RGHT:
             return true;
         default:
             return false;
